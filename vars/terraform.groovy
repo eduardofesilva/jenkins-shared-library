@@ -1,11 +1,11 @@
-def call() {
+def call(String SSH_ID, String GIT_URL, String ENVIRONMENT) {
   pipeline {
    agent any
-   parameters {
-    string defaultValue: 'git', description: 'SSH KEY ID', name: 'SSH_ID', trim: true
-    string defaultValue: '', description: 'GIT Url Repository - SSH', name: 'GIT_URL', trim: true
-    string defaultValue: '', description: 'Environment', name: 'ENVIRONMENT', trim: true
-  }
+   //parameters {
+    //string defaultValue: 'git_ssh', description: 'SSH KEY ID', name: 'SSH_ID', trim: true
+    //string defaultValue: '', description: 'GIT Url Repository - SSH', name: 'GIT_URL', trim: true
+    //string defaultValue: '', description: 'Environment', name: 'ENVIRONMENT', trim: true
+  //}
    stages {
      stage('Validating Terraform binary') {
        steps {
@@ -15,7 +15,7 @@ def call() {
      stage('Checkout')
      {
          steps{
-          git credentialsId: "${params.SSH_ID}", url: "${params.GIT_URL}"
+          git credentialsId: "${SSH_ID}", url: "${GIT_URL}"
          }
      }
      stage('Terraform Init')
@@ -23,9 +23,8 @@ def call() {
        steps{
          dir('./terraform/')
           {
-            sh 'cd ${params.ENVIRONMENT}/ && terraform init'
+            sh 'cd ${ENVIRONMENT}/ && terraform init'
           }
-
        }
      }
    }
