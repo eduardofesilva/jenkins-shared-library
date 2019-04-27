@@ -21,17 +21,16 @@ def call(String APP,String SSH_ID, String GIT_URL, String ENVIRONMENT) {
      stage('Terraform Init')
      {
        steps{
-         dir('./terraform/${ENVIRONMENT}')
+         dir('./terraform')
           {
-            sh 'terraform init'
-            //sh 'cd ${ENVIRONMENT}/ && terraform init'
+            sh 'cd ${ENVIRONMENT}/ && terraform init'
           }
        }
      }
      stage('Terraform Plan')
      {
        steps{
-         dir('./terraform/${ENVIRONMENT}')
+         dir('./terraform')
           {
             sh 'cd ${ENVIRONMENT}/ && terraform plan -out=${APP}-${ENVIRONMENT}.plan'
           }
@@ -40,7 +39,7 @@ def call(String APP,String SSH_ID, String GIT_URL, String ENVIRONMENT) {
      stage('Terraform Apply')
      {
        steps{
-         dir('./terraform/${ENVIRONMENT}')
+         dir('./terraform/')
           {
             sh 'cd ${ENVIRONMENT}/ && terraform plan -out=${APP}-${ENVIRONMENT}.plan'
           }
