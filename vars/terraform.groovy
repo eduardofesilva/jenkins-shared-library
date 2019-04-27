@@ -23,7 +23,8 @@ def call(String APP,String SSH_ID, String GIT_URL, String ENVIRONMENT) {
        steps{
          dir('./terraform')
           {
-            sh 'cd ${ENVIRONMENT}/ && terraform init'
+            sh 'ls -lrt'
+            //sh 'cd ${ENVIRONMENT}/ && terraform init'
           }
        }
      }
