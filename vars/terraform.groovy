@@ -37,7 +37,10 @@ def call(String APP,String SSH_ID, String GIT_URL, String ENVIRONMENT) {
      stage('Terraform Apply')
      {
        steps{
-            sh 'cd ${ENVIRONMENT}/ && terraform plan -out=${APP}-${ENVIRONMENT}.plan'
+         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+            sh 'export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" && export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" && export AWS_DEFAULT_REGION="us-east-1" && cd ${ENVIRONMENT}/ && terraform apply -auto-approve'
+            sh 'export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" && export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" && export AWS_DEFAULT_REGION="us-east-1" && cd ${ENVIRONMENT}/ && terraform destroy -auto-approve'
+          }
           }
      }
    }
