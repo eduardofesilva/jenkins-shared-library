@@ -1,4 +1,4 @@
-def call(String SSH_ID, String GIT_URL, String ENVIRONMENT) {
+def call(String APP,String SSH_ID, String GIT_URL, String ENVIRONMENT) {
   pipeline {
    agent any
    //parameters {
@@ -21,9 +21,28 @@ def call(String SSH_ID, String GIT_URL, String ENVIRONMENT) {
      stage('Terraform Init')
      {
        steps{
-         dir('./terraform/')
+         dir('./terraform/${ENVIRONMENT}')
           {
-            sh 'cd ${ENVIRONMENT}/ && terraform init'
+            sh 'terraform init'
+            //sh 'cd ${ENVIRONMENT}/ && terraform init'
+          }
+       }
+     }
+     stage('Terraform Plan')
+     {
+       steps{
+         dir('./terraform/${ENVIRONMENT}')
+          {
+            sh 'cd ${ENVIRONMENT}/ && terraform plan -out=${APP}-${ENVIRONMENT}.plan'
+          }
+       }
+     }
+     stage('Terraform Apply')
+     {
+       steps{
+         dir('./terraform/${ENVIRONMENT}')
+          {
+            sh 'cd ${ENVIRONMENT}/ && terraform plan -out=${APP}-${ENVIRONMENT}.plan'
           }
        }
      }
