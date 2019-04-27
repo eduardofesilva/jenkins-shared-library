@@ -21,8 +21,8 @@ def call(String APP,String SSH_ID, String GIT_URL, String ENVIRONMENT) {
      stage('Terraform Init')
      {
        steps{
-            sh 'ls -lrt'
-            //sh 'cd ${ENVIRONMENT}/ && terraform init'
+            //sh 'ls -lrt'
+            sh 'cd ${ENVIRONMENT}/ && terraform init'
        }
      }
      stage('Terraform Plan')
