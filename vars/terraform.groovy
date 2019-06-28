@@ -1,6 +1,6 @@
 def call(String APP,String SSH_ID, String GIT_URL, String ENVIRONMENT) {
   pipeline {
-   agent any
+   agent { label 'ubuntu'}
    //parameters {
     //string defaultValue: 'git_ssh', description: 'SSH KEY ID', name: 'SSH_ID', trim: true
     //string defaultValue: '', description: 'GIT Url Repository - SSH', name: 'GIT_URL', trim: true
